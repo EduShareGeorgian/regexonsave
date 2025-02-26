@@ -1,71 +1,48 @@
-# regexonsave README
+# Regex Replace on Save
+## Automatically run RegExp replace text before saving a file.
 
-This is the README for your extension "regexonsave". After writing up a brief description, we recommend including the following sections.
+Derivative of https://gitlab.com/ruthner97/vscode-regex-replace-on-save as we couldn't get it working.  This has been extended with more options, and our motivation was migrating liquibase changeset's to the latest version.
 
-## Features
+## Options
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- File Extension to apply replace rules to
+- Find rule (regExp)
+- Replace rule
 
-For example if there is an image subfolder under your extension project workspace:
+### Example Configuration (settings.json):
 
-\!\[feature X\]\(images/feature-x.png\)
+```json
+  {
+    ...
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+    "regexonsave.rulesets": {
+        "groovy": {
+            "String column type to STRING": {
+                "find": "(type:\\s*[\"'])\\b(string)\\b([\"'])",
+                "mode": "gi",
+                "replace": "$1STRING$3",
+                "runOnLoad": true
+            },
+            "Numeric column type to NUMERIC": {
+                "find": "(type:\\s*[\"'])\\b(numeric)\\b([\"'])",
+                "mode": "gi",
+                "replace": "$1NUMERIC$3",
+                "runOnLoad": true
+            },
+            "Computed column type to COMPUTED": {
+                "find": "(type:\\s*[\"'])\\b(Computed)\\b([\"'])",
+                "mode": "gi",
+                "replace": "$1COMPUTED$3",
+                "runOnLoad": true
+            },
+            "Datetime column type to DATETIME": {
+                "find": "(header:[\\s]*\\\"[\\S]*\\\"[\\s,]*)(type:[\\s]*\\\")(datetime)(\\\")",
+                "mode": "gi",
+                "replace": "$1$2DATE$4",
+                "runOnLoad": true
+            }
 
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+        }    
+    }
+}
+```
